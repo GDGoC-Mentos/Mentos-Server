@@ -26,4 +26,9 @@ public class UserInterestController {
         return ResponseEntity.ok(userInterestResDto);
     }
 
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<String> deleteUserInterest(@PathVariable Long userId, @PathVariable Long categoryId) {
+        userInterestService.deleteUserInterest(userId, categoryId);
+        return ResponseEntity.ok("관심 카테고리가 삭제되었습니다.");
+    }
 }

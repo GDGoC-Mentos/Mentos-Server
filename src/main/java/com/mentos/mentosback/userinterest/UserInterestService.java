@@ -63,4 +63,15 @@ public class UserInterestService {
 
         return UserInterestResDto.from(user.getId(), userInterests);
     }
+
+    @Transactional
+    public void deleteUserInterest(Long userId, Long categoryId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다." + userId));
+
+        UserInterest userInterest = userInterestRepository.findByUserAndCategoryId(user, categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 관심 카테고리를 찾을 수 없습니다. Category ID: " + categoryId));
+
+        userInterestRepository.delete(userInterest);
+    }
 }
