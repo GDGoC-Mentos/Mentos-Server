@@ -1,5 +1,7 @@
 package com.mentos.mentosback.users.service;
 
+import com.mentos.mentosback.common.apiPayload.code.status.ErrorStatus;
+import com.mentos.mentosback.common.apiPayload.exception.GeneralException;
 import com.mentos.mentosback.exception.EmailAlreadyExistsException;
 import com.mentos.mentosback.users.dto.UserSignupRequestDto;
 import com.mentos.mentosback.users.entity.Status;
@@ -47,5 +49,10 @@ public class UserService {
         // 5. 인증 이메일 발송
         String verificationUrl = "http://localhost:8080/users/verify-email?token=" + token;
         mailService.sendEmail(request.getEmail(), "이메일 인증", "인증하려면 여기를 클릭하세요: " + verificationUrl);
+    }
+
+    public User findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ID_NOT_FOUND));
     }
 }
