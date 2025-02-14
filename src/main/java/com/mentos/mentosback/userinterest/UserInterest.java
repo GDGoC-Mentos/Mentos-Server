@@ -1,7 +1,8 @@
 package com.mentos.mentosback.userinterest;
 
 import com.mentos.mentosback.category.Category;
-import com.mentos.mentosback.user.User;
+
+import com.mentos.mentosback.users.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

@@ -2,8 +2,9 @@ package com.mentos.mentosback.userinterest;
 
 import com.mentos.mentosback.category.Category;
 import com.mentos.mentosback.category.CategoryRepository;
-import com.mentos.mentosback.user.User;
-import com.mentos.mentosback.user.UserRepository;
+
+import com.mentos.mentosback.users.entity.User;
+import com.mentos.mentosback.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
