@@ -1,10 +1,11 @@
-package com.mentos.mentosback.common;
+package com.mentos.mentosback.users.service;
 
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,16 @@ public class MailService {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             message.setFrom(new InternetAddress("menttos12@gmail.com")); // 발신자 이메일
-            message.setRecipients(Message.RecipientType.TO, to);  // 사용자가 입력한 이메일로 보냄
+            message.setRecipients(Message.RecipientType.TO, to);  // 사용자가 입력한 이메일
             message.setSubject(subject);
-            message.setText(content, "utf-8", "html");
+
+            // HTML 형식 적용
+            String htmlContent = content + "<br><br> 또는 URL을 복사해서 브라우저에 붙여넣으세요.<br>";
+            message.setContent(htmlContent, "text/html; charset=utf-8");
 
             mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("이메일 전송에 실패했습니다.", e);
+        } catch (MailException | MessagingException e) {
+            throw new RuntimeException("이메일 발송 중 오류가 발생했습니다.", e);
         }
     }
 }
-

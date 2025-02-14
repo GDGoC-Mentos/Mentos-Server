@@ -43,8 +43,15 @@ public class User {
     @Column(nullable = true)
     private String providerId;
 
-    public void activate() {
-        this.status = Status.ACTIVE;
+    public User withStatus(Status status) {
+        return User.builder()
+                .id(this.id)
+                .email(this.email)
+                .password(this.password)
+                .name(this.name)
+                .role(this.role)
+                .status(status)  // 상태만 변경
+                .build();
     }
 }
 

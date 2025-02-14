@@ -1,13 +1,10 @@
 package com.mentos.mentosback.users.service;
 
-import com.mentos.mentosback.common.apiPayload.code.status.ErrorStatus;
-import com.mentos.mentosback.common.apiPayload.exception.GeneralException;
-import com.mentos.mentosback.exception.EmailAlreadyExistsException;
+import com.mentos.mentosback.common.EmailAlreadyExistsException;
 import com.mentos.mentosback.users.dto.UserSignupRequestDto;
 import com.mentos.mentosback.users.entity.Status;
 import com.mentos.mentosback.users.entity.User;
 import com.mentos.mentosback.users.repository.UserRepository;
-import com.mentos.mentosback.common.MailService;
 import com.mentos.mentosback.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,11 +45,11 @@ public class UserService {
 
         // 5. 인증 이메일 발송
         String verificationUrl = "http://localhost:8080/users/verify-email?token=" + token;
-        mailService.sendEmail(request.getEmail(), "이메일 인증", "인증하려면 여기를 클릭하세요: " + verificationUrl);
-    }
+        try {
+            mailService.sendEmail(request.getEmail(), "이메일 인증", "멘토스 이메일 인증을 하려면 해당 링크를 클릭하세요: <br>" + verificationUrl);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("회원가입 중 이메일 전송에 실패했습니다. 다시 시도해주세요.");
+        }
 
-    public User findById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.ID_NOT_FOUND));
     }
 }
